@@ -1,0 +1,326 @@
+/* ==========================================================================
+   1. ESTILOS GERAIS (DARK MODE)
+   ========================================================================== */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    color: #E5E7EB;
+    background-color: #000; /* Fundo preto sólido */
+    overflow-x: hidden; /* Previne scroll horizontal causado pelas estrelas */
+}
+
+/* ALTERAÇÃO: FUNDO DE UNIVERSO EM MOVIMENTO */
+.stars, .stars2, .stars3 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-repeat: repeat;
+    background-size: cover;
+    z-index: -1; /* Fica atrás de todo o conteúdo */
+    animation: move-stars 50s linear infinite;
+}
+.stars { background-image: url('https://www.transparenttextures.com/patterns/stardust.png' ); }
+.stars2 { background-image: url('https://www.transparenttextures.com/patterns/stardust.png' ); animation: move-stars 100s linear infinite; opacity: 0.5; }
+.stars3 { background-image: url('https://www.transparenttextures.com/patterns/stardust.png' ); animation: move-stars 150s linear infinite; opacity: 0.3; }
+
+@keyframes move-stars {
+    from { transform: translateY(0); }
+    to { transform: translateY(-1000px); } /* Movimento vertical das estrelas */
+}
+
+.container { width: 80%; margin: auto; overflow: hidden; padding: 20px 0; position: relative; z-index: 2; }
+section { padding: 50px 0; text-align: center; border-bottom: 1px solid #374151; background: rgba(17, 24, 39, 0.5); backdrop-filter: blur(2px); }
+section:first-of-type, section:last-of-type { border-bottom: none; }
+section h2 { font-size: 2.2em; margin-bottom: 30px; color: #F9FAFB; }
+
+/* ==========================================================================
+   2. SEÇÃO HERO (TOPO) - COM TÍTULO 3D E PULSANTE
+   ========================================================================== */
+.hero { background: none; border-bottom: none; }
+.hero-content { display: flex; align-items: center; gap: 50px; }
+.hero-text { flex: 1; text-align: left; }
+
+/* ALTERAÇÃO: TÍTULO 3D E PULSANTE */
+.title-3d-container { perspective: 500px; }
+.hero h1 {
+    font-size: 2.8em;
+    margin-bottom: 15px;
+    line-height: 1.2;
+    min-height: 100px;
+    color: #fff;
+    position: relative;
+    text-shadow: 0 0 10px #34D399, 0 0 20px #34D399, 0 0 40px #34D399;
+    animation: pulse-title 3s infinite;
+    transform-style: preserve-3d;
+}
+/* Efeito 3D */
+.hero h1::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #10B981;
+    z-index: -1;
+    text-shadow: none;
+    transform: translateZ(-2px) scale(1.01);
+}
+@keyframes pulse-title {
+    50% { text-shadow: 0 0 15px #6EE7B7, 0 0 30px #6EE7B7, 0 0 60px #6EE7B7; }
+}
+
+.hero p { font-size: 1.1em; margin-bottom: 30px; min-height: 80px; color: #D1D5DB; }
+.hero-image-container { flex-basis: 35%; perspective: 1000px; }
+.hero-image { width: 100%; transition: transform 0.4s ease-out, filter 0.4s ease-out; filter: drop-shadow(0 0 15px rgba(52, 211, 153, 0.3)); }
+.hero-image:hover { transform: scale(1.05) rotateY(-10deg) rotateX(3deg); filter: drop-shadow(0 0 25px rgba(52, 211, 153, 0.5)); }
+
+/* (O restante do CSS continua igual, apenas as seções de conteúdo precisam de um fundo semi-transparente) */
+
+/* ==========================================================================
+   3. BOTÕES
+   ========================================================================== */
+.cta-button { display: inline-block; background-color: #34D399; color: #111827; padding: 12px 28px; text-decoration: none; font-size: 1.1em; font-weight: bold; border-radius: 5px; border: none; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; }
+.cta-button:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(52, 211, 153, 0.4); background-color: #6EE7B7; }
+.cta-button:active { transform: translateY(-2px); }
+
+.neon-button { display: inline-block; padding: 15px 30px; margin-bottom: 30px; font-size: 1.4em; font-weight: bold; text-decoration: none; color: #fff; background-color: #D97706; border: 2px solid #FBBF24; border-radius: 10px; text-shadow: 0 0 5px #fff, 0 0 10px #FBBF24, 0 0 20px #D97706; box-shadow: 0 0 5px #D97706, 0 0 15px #D97706, 0 0 30px #D97706, inset 0 0 5px #FBBF24; animation: pulse 2s infinite; transition: all 0.3s ease; cursor: pointer; }
+.neon-button:hover { transform: translateY(-5px); color: #111827; background-color: #FBBF24; text-shadow: 0 0 5px #111827; box-shadow: 0 8px 25px rgba(245, 158, 11, 0.5); }
+@keyframes pulse { 50% { box-shadow: 0 0 10px #F59E0B, 0 0 30px #F59E0B, 0 0 60px #F59E0B, inset 0 0 10px #FDE68A; } }
+
+/* ==========================================================================
+   4. SEÇÕES DE CONTEÚDO
+   ========================================================================== */
+.offer { background: none; }
+#countdown { font-size: 1.8em; font-weight: bold; color: #93C5FD; margin-top: 20px; }
+.price-section { background-color: rgba(31, 41, 55, 0.7); border: 2px dashed #34D399; border-radius: 10px; padding: 20px; margin: 40px auto; max-width: 400px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.price-section .original-price { text-decoration: line-through; color: #6B7280; }
+.price-section h3 { font-size: 2em; color: #F9FAFB; margin: 10px 0; }
+.price-section .discount-tag { background-color: #34D399; color: #111827; display: inline-block; padding: 5px 15px; border-radius: 20px; font-weight: bold; margin-top: 10px; }
+
+.result { background: none; }
+.result-image { max-width: 50%; margin: 20px auto 0; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.4s ease-out, box-shadow 0.4s ease-out; }
+.result-image:hover { transform: scale(1.05) rotateY(-10deg) rotateX(3deg); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); }
+
+.features { background: none; }
+.feature-grid { display: flex; justify-content: center; align-items: center; position: relative; height: 400px; margin-top: 50px; }
+.feature-column { position: absolute; width: 30%; transition: transform 0.3s ease-out, z-index 0s 0.15s; }
+.feature-image { width: 100%; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); cursor: pointer; }
+.feature-column:nth-child(1) { transform: translateX(-80%) rotate(-10deg); z-index: 1; }
+.feature-column:nth-child(2) { transform: scale(1.1); z-index: 2; }
+.feature-column:nth-child(3) { transform: translateX(80%) rotate(10deg); z-index: 1; }
+.feature-grid:hover .feature-column:nth-child(1) { transform: translateX(-90%) rotate(-15deg) scale(1.05); }
+.feature-grid:hover .feature-column:nth-child(2) { transform: scale(1.15); }
+.feature-grid:hover .feature-column:nth-child(3) { transform: translateX(90%) rotate(15deg) scale(1.05); }
+.feature-column:hover { transform: scale(1.2) !important; z-index: 3 !important; }
+.tech-button { display: none; }
+
+.testimonials { background: rgba(31, 41, 55, 0.7); }
+.testimonial { background: #374151; padding: 20px; margin: 20px auto; max-width: 600px; border-left: 5px solid #34D399; border-radius: 5px; }
+.testimonial span { font-weight: bold; display: block; margin-top: 10px; color: #9CA3AF; }
+
+.final-cta { background: none; }
+.guarantee { margin-top: 20px; font-size: 0.9em; color: #9CA3AF; }
+
+footer { background-color: #111827; color: #9CA3AF; text-align: center; padding: 20px 0; border-top: 1px solid #374151; }
+
+/* ==========================================================================
+   5. RESPONSIVIDADE
+   ========================================================================== */
+@media (max-width: 768px) {
+    .hero-content { flex-direction: column; }
+    .hero-text { text-align: center; }
+    .hero h1 { font-size: 2em; }
+    .feature-grid { height: auto; flex-direction: column; gap: 30px; }
+    .feature-column { position: static; width: 80%; transform: none !important; }
+}
+
+/* NOVA SEÇÃO DO GIF (COM FUNDO TRANSPARENTE) */
+.gif-section {
+    padding: 0;
+    height: 50vh;
+    overflow: hidden;
+    position: relative;
+    background: none; /* <<< A SOLUÇÃO: Remove o fundo preto da seção */
+    border-bottom: 1px solid #374151;
+}
+.fullscreen-gif {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7; /* Aumentei um pouco a opacidade para o GIF ficar mais visível */
+    position: relative;
+    z-index: 1;
+}
+
+/* evita seleção de texto */
+html, body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+
+
+/* ==========================================================================
+   DESTAQUE ESPECIAL DO LIVRO (MEGA HERO VISUAL)
+   ========================================================================== */
+.hero-image-container {
+  background: radial-gradient(circle, rgba(52,211,153,0.25) 0%, rgba(0,0,0,0) 70%);
+  border-radius: 50%;
+  padding: 50px;
+  animation: glowRotate 10s infinite linear;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-image {
+  width: 90%; /* deixa o livro grande */
+  max-width: 650px; /* tamanho máximo */
+  transition: transform 0.6s ease, filter 0.6s ease;
+  filter: drop-shadow(0 0 40px rgba(52, 211, 153, 0.8));
+  animation: bookPulse 4s infinite ease-in-out;
+}
+
+@keyframes bookPulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 25px rgba(52, 211, 153, 0.6));
+  }
+  50% {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 60px rgba(52, 211, 153, 1));
+  }
+}
+
+@keyframes glowRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Efeito reflexo tipo vitrine */
+.hero-image::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to top, rgba(52,211,153,0.3), transparent);
+  transform: translateY(-40px) scaleY(-1);
+  opacity: 0.4;
+  filter: blur(6px);
+}
+
+/* =========================================
+   DESTAQUE DO LIVRO - HERO MEGA VISUAL
+   ========================================= */
+.hero-image-container {
+    flex-basis: 60%;      /* aumenta o container para quase metade da tela */
+    max-width: 700px;     /* opcional: limita o tamanho máximo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+}
+
+.hero-image {
+    width: 100%;          /* ocupa todo o container */
+    max-width: 700px;     /* tamanho máximo do livro */
+    transform: scale(1.2); /* aumenta ainda mais visualmente */
+    transition: transform 0.5s ease, filter 0.5s ease;
+    filter: drop-shadow(0 0 40px rgba(52, 211, 153, 0.8));
+    animation: bookPulse 4s infinite ease-in-out;
+}
+
+.hero-image:hover {
+    transform: scale(1.3) rotateY(-10deg) rotateX(3deg);
+    filter: drop-shadow(0 0 60px rgba(52, 211, 153, 1));
+}
+
+@keyframes bookPulse {
+    0%, 100% { transform: scale(1.2); filter: drop-shadow(0 0 40px rgba(52, 211, 153, 0.8)); }
+    50% { transform: scale(1.25); filter: drop-shadow(0 0 60px rgba(52, 211, 153, 1)); }
+}
+
+/* HERO TOTAL - CAPA GIGANTE */
+.hero {
+    position: relative;
+    height: 100vh; /* altura total da tela */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: none;
+}
+
+.hero-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;       /* deixa a capa gigante */
+    max-width: 900px; /* limite máximo */
+    height: auto;
+    border-radius: 12px;
+    filter: drop-shadow(0 0 100px rgba(52,211,153,0.8)) brightness(1.2);
+    transition: all 0.5s ease;
+}
+
+.hero-image:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+    filter: drop-shadow(0 0 150px rgba(52,211,153,1)) brightness(1.4);
+}
+
+.hero-text {
+    position: absolute;
+    bottom: 60px; /* ajuste para subir ou descer */
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    z-index: 2;
+}
+
+.hero-text h1 {
+    font-size: 3em;
+    text-shadow: 0 0 10px #34D399, 0 0 20px #34D399, 0 0 40px #34D399;
+    margin-bottom: 15px;
+}
+
+.hero-text p {
+    font-size: 1.2em;
+    margin-bottom: 25px;
+}
+
+.hero-text .cta-button {
+    padding: 15px 30px;
+    font-size: 1.3em;
+    background-color: #34D399;
+    color: #111827;
+    border-radius: 8px;
+    font-weight: bold;
+    box-shadow: 0 8px 25px rgba(52,211,153,0.4);
+    transition: all 0.3s ease;
+}
+
+.hero-text .cta-button:hover {
+    background-color: #6EE7B7;
+    transform: translateY(-5px);
+}
+
+
+/* ==========================================================
+   REGRAS DESEGURANÇA E USABILIDADE
+   ========================================================== */
+
+/* Evita seleção acidental de texto */
+html, body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Permite seleção em campos editáveis */
+input, textarea, [contenteditable="true"] {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}

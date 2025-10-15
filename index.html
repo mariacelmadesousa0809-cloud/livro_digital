@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Vendas - Introdução ao HTML</title>
+
+    <!-- ================================================================== -->
+    <!-- CSS EMBUTIDO DIRETAMENTE AQUI -->
+    <!-- ================================================================== -->
+    <style>
+        /* ESTILOS GERAIS (DARK MODE) */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #E5E7EB;
+            background-color: #000; /* Fundo preto sólido */
+            overflow-x: hidden;
+        }
+
+        /* FUNDO MATRIX */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Fica atrás de todo o conteúdo */
+        }
+
+        .container { width: 80%; margin: auto; overflow: hidden; padding: 20px 0; position: relative; z-index: 2; }
+        section { padding: 50px 0; text-align: center; border-bottom: 1px solid #374151; background: rgba(17, 24, 39, 0.5); backdrop-filter: blur(2px); }
+        section:first-of-type, section:last-of-type { border-bottom: none; }
+        section h2 { font-size: 2.2em; margin-bottom: 30px; color: #F9FAFB; }
+
+        /* SEÇÃO HERO (TOPO) - COM TÍTULO GLITCH E PULSANTE */
+        .hero { background: none; border-bottom: none; }
+        .hero-content { display: flex; align-items: center; gap: 50px; }
+        .hero-text { flex: 1; text-align: left; }
+
+        .title-3d-container { perspective: 500px; }
+        .hero h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            line-height: 1.2;
+            min-height: 100px;
+            color: #fff;
+            position: relative;
+            text-shadow: 0 0 10px #34D399, 0 0 20px #34D399, 0 0 40px #34D399;
+            animation: pulse-title 3s infinite, glitch-shake 5s infinite;
+        }
+        @keyframes pulse-title {
+            50% { text-shadow: 0 0 15px #6EE7B7, 0 0 30px #6EE7B7, 0 0 60px #6EE7B7; }
+        }
+        @keyframes glitch-shake {
+          0%, 100% { transform: translateX(0); }
+          10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+          20%, 40%, 60%, 80% { transform: translateX(2px); }
+        }
+
+        .hero p { font-size: 1.1em; margin-bottom: 30px; min-height: 80px; color: #D1D5DB; }
+        .hero-image-container { flex-basis: 35%; perspective: 1000px; }
+        .hero-image { width: 100%; transition: transform 0.4s ease-out, filter 0.4s ease-out; filter: drop-shadow(0 0 15px rgba(52, 211, 153, 0.3)); }
+        .hero-image:hover { transform: scale(1.05) rotateY(-10deg) rotateX(3deg); filter: drop-shadow(0 0 25px rgba(52, 211, 153, 0.5)); }
+
+        /* ASCII NAME */
+        .hero-name {
+            font-family: monospace;
+            font-size: 0.8em;
+            color: #34D399;
+            text-shadow: 0 0 5px #6EE7B7;
+            margin-bottom: 20px;
+            white-space: pre;
+        }
+
+        /* BOTÕES */
+        .cta-button { display: inline-block; background-color: #34D399; color: #111827; padding: 12px 28px; text-decoration: none; font-size: 1.1em; font-weight: bold; border-radius: 5px; border: none; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; }
+        .cta-button:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(52, 211, 153, 0.4); background-color: #6EE7B7; }
+        .cta-button:active { transform: translateY(-2px); }
+
+        .neon-button { display: inline-block; padding: 15px 30px; margin-bottom: 30px; font-size: 1.4em; font-weight: bold; text-decoration: none; color: #fff; background-color: #D97706; border: 2px solid #FBBF24; border-radius: 10px; text-shadow: 0 0 5px #fff, 0 0 10px #FBBF24, 0 0 20px #D97706; box-shadow: 0 0 5px #D97706, 0 0 15px #D97706, 0 0 30px #D97706, inset 0 0 5px #FBBF24; animation: pulse 2s infinite; transition: all 0.3s ease; cursor: pointer; }
+        .neon-button:hover { transform: translateY(-5px); color: #111827; background-color: #FBBF24; text-shadow: 0 0 5px #111827; box-shadow: 0 8px 25px rgba(245, 158, 11, 0.5); }
+        @keyframes pulse { 50% { box-shadow: 0 0 10px #F59E0B, 0 0 30px #F59E0B, 0 0 60px #F59E0B, inset 0 0 10px #FDE68A; } }
+
+        /* SEÇÕES DE CONTEÚDO */
+        .offer { background: none; }
+        #countdown { font-size: 1.8em; font-weight: bold; color: #93C5FD; margin-top: 20px; }
+        .price-section { background-color: rgba(31, 41, 55, 0.7); border: 2px dashed #34D399; border-radius: 10px; padding: 20px; margin: 40px auto; max-width: 400px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .price-section .original-price { text-decoration: line-through; color: #6B7280; }
+        .price-section h3 { font-size: 2em; color: #F9FAFB; margin: 10px 0; }
+        .price-section .discount-tag { background-color: #34D399; color: #111827; display: inline-block; padding: 5px 15px; border-radius: 20px; font-weight: bold; margin-top: 10px; }
+
+        .result { background: none; }
+        .result-image { max-width: 50%; margin: 20px auto 0; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.4s ease-out, box-shadow 0.4s ease-out; }
+        .result-image:hover { transform: scale(1.05) rotateY(-10deg) rotateX(3deg); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); }
+
+        .features { background: none; }
+        .feature-grid { display: flex; justify-content: center; align-items: center; position: relative; height: 400px; margin-top: 50px; }
+        .feature-column { position: absolute; width: 30%; transition: transform 0.3s ease-out, z-index 0s 0.15s; }
+        .feature-image { width: 100%; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); cursor: pointer; }
+        .feature-column:nth-child(1) { transform: translateX(-80%) rotate(-10deg); z-index: 1; }
+        .feature-column:nth-child(2) { transform: scale(1.1); z-index: 2; }
+        .feature-column:nth-child(3) { transform: translateX(80%) rotate(10deg); z-index: 1; }
+        .feature-grid:hover .feature-column:nth-child(1) { transform: translateX(-90%) rotate(-15deg) scale(1.05); }
+        .feature-grid:hover .feature-column:nth-child(2) { transform: scale(1.15); }
+        .feature-grid:hover .feature-column:nth-child(3) { transform: translateX(90%) rotate(15deg) scale(1.05); }
+        .feature-column:hover { transform: scale(1.2) !important; z-index: 3 !important; }
+        .tech-button { display: none; }
+
+        .testimonials { background: rgba(31, 41, 55, 0.7); }
+        .testimonial { background: #374151; padding: 20px; margin: 20px auto; max-width: 600px; border-left: 5px solid #34D399; border-radius: 5px; }
+        .testimonial span { font-weight: bold; display: block; margin-top: 10px; color: #9CA3AF; }
+
+        .final-cta { background: none; }
+        .guarantee { margin-top: 20px; font-size: 0.9em; color: #9CA3AF; }
+
+        footer { background-color: #111827; color: #9CA3AF; text-align: center; padding: 20px 0; border-top: 1px solid #374151; }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 768px) {
+            .hero-content { flex-direction: column; }
+            .hero-text { text-align: center; }
+            .hero h1 { font-size: 2em; }
+            .hero-name { font-size: 0.6em; }
+            .feature-grid { height: auto; flex-direction: column; gap: 30px; }
+            .feature-column { position: static; width: 80%; transform: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+
+    <header class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+
+                <div class="ascii-glitch">
+<pre>
+████╗███████╗    ██╗     ██╗     ███████╗      ██╗    ██╗███████╗███████╗███████╗ ███████╗████████╗
+██╔════╝ ██╔════╝██║     ██║     ██╔════╝      ██║    ██║██╔════╝██╔══██╗██╔═ ██  ██╔════╝██╔══████v╗
+██      █████ ╗  ██║     ██║     ███████╔╗     ██║ █╗ ██║█████╗  ███████╔╝██████╔╝█████╗  ██████╔╝
+██╚════  ██║ ╔╝  ██║     ██║          ██╔═     ██║███╗██║██╔══╝  ██╔══██╗██╔══██═ ██╔══╝  ██╔══██╗
+██████╗ ███████╗███████╗███████╗███████╗      ╚███╔███╔╝███████╗║██████ ███████  ███████╗██║  ██║
+</div>
+
+<style>
+.ascii-glitch pre {
+  font-family: monospace;
+  color: #34D399;
+  font-size: 14px;
+  line-height: 1.1;
+  position: relative;
+  animation: glitch 0.3s infinite;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0, 0); text-shadow: 1px 0 #fff; }
+  20% { transform: translate(-2px, 1px); text-shadow: -1px 1px #FBBF24; }
+  40% { transform: translate(2px, -1px); text-shadow: 1px -1px #FBBF24; }
+  60% { transform: translate(-1px, 2px); text-shadow: 2px 2px #fff; }
+  80% { transform: translate(1px, -2px); text-shadow: -2px -1px #FBBF24; }
+  100% { transform: translate(0, 0); text-shadow: 0 0 #34D399; }
+}
+</style>
+
+
+                <div class="title-3d-container">
+                    <h1 id="typing-title"></h1>
+                </div>
+                <p id="typing-subtitle"></p>
+                <a href="https://hotm.art/HiperLearn-Web" class="cta-button">QUERO COMEÇAR A CODIFICAR AGORA</a>
+            </div>
+            
+            <div class="hero-image-container">
+                <img src="imagens/capa_ebook.png" alt="Capa do livro HiperLearn Introdução ao HTML" class="hero-image">
+            </div>
+        </div>
+    </header>
+
+    <section class="offer">
+        <div class="container">
+            <a href="https://hotm.art/HiperLearn-Web" class="neon-button">OFERTA DE LANÇAMENTO</a>
+            <p>Aproveite o desconto especial por tempo limitado. A promoção termina em:</p>
+            <div id="countdown">
+                <span id="days">00</span> dias <span id="hours">00</span> horas <span id="minutes">00</span> minutos <span id="seconds">00</span> segundos
+            </div>
+            <div class="price-section">
+                <p>De: <span class="original-price">R$ 57,00</span></p>
+                <h3>Por apenas: <strong>R$ 39,90</strong></h3>
+                <p class="discount-tag">Você economiza 30%!</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="result">
+        <div class="container">
+            <h2>Visualize o Poder do Seu Código</h2>
+            <p>Com este guia, você não apenas aprende a teoria, você a aplica. Transforme comandos abstratos em resultados visuais e funcionais instantaneamente.</p>
+            <img src="imagens/codigo_resultado.png" alt="Exemplo de código HTML e o resultado no navegador" class="result-image">
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2>O que você vai dominar com este livro?</h2>
+            <div class="feature-grid">
+                <div class="feature-column">
+                    <div class="feature-card">
+                        <img src="imagens/estrutura_html.png" alt="Diagrama da estrutura básica do HTML" class="feature-image">
+                    </div>
+                </div>
+                <div class="feature-column">
+                    <div class="feature-card">
+                        <img src="imagens/elementos_html.png" alt="Tabela com elementos essenciais do HTML" class="feature-image">
+                    </div>
+                </div>
+                <div class="feature-column">
+                    <div class="feature-card">
+                        <img src="imagens/html_css_js.png" alt="Diagrama das três camadas da web" class="feature-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <h2>O que os primeiros leitores dizem</h2>
+            <div class="testimonial"><p>"Finalmente um livro que explica HTML de forma simples! Consegui criar minha primeira página em um fim de semana."</p><span>- João S., Estudante</span></div>
+            <div class="testimonial"><p>"Direto ao ponto e com exemplos práticos. Recomendo para qualquer um que esteja começando."</p><span>- Maria P., Designer</span></div>
+        </div>
+    </section>
+
+    <section class="final-cta">
+        <div class="container">
+            <h2>Pronto para construir a sua web?</h2>
+            <p>Adquira seu guia agora mesmo e dê o primeiro passo na sua jornada como desenvolvedor.</p>
+            <a href="https://hotm.art/HiperLearn-Web" class="cta-button">QUERO MEU LIVRO POR R$ 39,90</a>
+            <div class="guarantee"><p><strong>Garantia de 7 dias!</strong> Seu risco é zero.</p></div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Cells Sanliweer Webber. Todos os direitos reservados.</p>
+    </footer>
+
+    <canvas id="matrix-canvas"></canvas>
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+    
+    <!-- ================================================================== -->
+    <!-- JAVASCRIPT EMBUTIDO DIRETAMENTE AQUI -->
+    <!-- ================================================================== -->
+    <script>
+        // EFEITO MATRIX COM "PLANTAS"
+        const canvas = document.getElementById('matrix-canvas' );
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let matrixChars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('');
+        let fontSize = 12;
+        let columns = canvas.width / fontSize;
+        let drops = [];
+        for (let x = 0; x < columns; x++) drops[x] = 1;
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#34D399';
+            ctx.font = fontSize + 'px arial';
+            for (let i = 0; i < drops.length; i++) {
+                let text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 33);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            columns = canvas.width / fontSize;
+            drops = [];
+            for (let x = 0; x < columns; x++) drops[x] = 1;
+        });
+
+        // OUTROS SCRIPTS
+        document.addEventListener('DOMContentLoaded', function() {
+            const titleElement = document.getElementById('typing-title');
+            const subtitleElement = document.getElementById('typing-subtitle');
+
+            function typeWriter(element, text, onComplete) {
+                let i = 0;
+                function type() {
+                    if (i < text.length) {
+                        element.innerHTML += text.charAt(i);
+                        i++;
+                        setTimeout(type, 40);
+                    } else if (onComplete) onComplete();
+                }
+                type();
+            }
+
+            if (titleElement && subtitleElement) {
+                const titleText = "Do Zero à Sua Primeira Página Web: O Guia Definitivo de HTML";
+                const subtitleText = "Aprenda a estrutura da internet e construa seu primeiro site, mesmo que você nunca tenha escrito uma linha de código.";
+                typeWriter(titleElement, titleText, () => typeWriter(subtitleElement, subtitleText));
+            }
+
+            const promotionEndDate = new Date();
+            promotionEndDate.setDate(promotionEndDate.getDate() + 3);
+            const countdownInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = promotionEndDate - now;
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                document.getElementById("days").innerText = String(days).padStart(2, '0');
+                document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+                document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+                document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById("countdown").innerHTML = "PROMOÇÃO ENCERRADA!";
+                }
+            }, 1000);
+
+            if (typeof ScrollReveal !== 'undefined') {
+                const sr = ScrollReveal({ origin: 'bottom', distance: '50px', duration: 800, easing: 'ease-in-out', reset: false });
+                const typingDuration = (titleText.length + subtitleText.length) * 40 + 2000;
+                sr.reveal('.hero-text .cta-button', { delay: typingDuration });
+                sr.reveal('.hero-image-container', { delay: 1000 });
+                sr.reveal('.offer, .result, .features, .testimonials, .final-cta', { interval: 150 });
+                sr.reveal('.feature-column, .price-section', { interval: 100 });
+            }
+        });
+    </script>
+
+</body>
+</html>
+
