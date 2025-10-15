@@ -326,58 +326,69 @@ input, textarea, [contenteditable="true"] {
 }
 
 /* ==========================================================================
-   6. ESTILOS RESPONSIVOS PARA CELULAR
+   6. ESTILOS RESPONSIVOS PARA CELULAR (VERSÃO 2 - MAIS FORTE)
    ========================================================================== */
 
 @media (max-width: 768px) {
 
     /* --- AJUSTES GERAIS --- */
     .container {
-        width: 90%; /* Aumenta a largura do conteúdo para aproveitar melhor a tela */
+        width: 90%;
     }
 
-    /* --- SEÇÃO DO TOPO (HERO) --- */
+    section {
+        padding: 40px 0; /* Diminui o espaçamento das seções */
+    }
+
+    /* --- SEÇÃO DO TOPO (HERO) - A CORREÇÃO PRINCIPAL ESTÁ AQUI --- */
     .hero {
-        height: auto; /* Altura automática para o conteúdo caber */
-        padding: 60px 0; /* Adiciona um respiro em cima e embaixo */
+        height: auto !important; /* Altura automática, !important para forçar */
+        display: block !important; /* Muda para block para empilhar */
+        padding: 60px 0;
     }
 
     .hero-image {
-        position: static; /* Remove o posicionamento absoluto */
-        transform: translate(0, 0); /* Reseta a transformação */
-        width: 70%; /* Diminui um pouco a imagem da capa */
-        margin: 0 auto 30px; /* Centraliza a imagem e adiciona espaço embaixo */
+        position: static !important; /* Remove o posicionamento absoluto */
+        transform: translate(0, 0) scale(1.0) !important; /* Reseta a posição e o tamanho */
+        width: 70%;
+        max-width: 280px; /* Limita o tamanho máximo da imagem */
+        margin: 0 auto 30px; /* Centraliza a imagem e dá espaço embaixo */
+    }
+    
+    .hero-image:hover {
+        transform: none !important; /* Desativa o efeito de hover no celular */
     }
 
     .hero-text {
-        position: static; /* Remove o posicionamento absoluto */
+        position: static !important; /* Remove o posicionamento absoluto */
         bottom: auto;
+        transform: none !important;
+        text-align: center; /* Garante que o texto fique centralizado */
     }
 
     .hero-text h1 {
-        font-size: 2.2em; /* Diminui o tamanho do título principal */
+        font-size: 2.2em; /* Diminui o título */
     }
 
     .hero-text p {
-        font-size: 1em; /* Diminui o texto do parágrafo */
+        font-size: 1em;
     }
 
     /* --- SEÇÃO DE CARDS (FEATURES) --- */
     .feature-grid {
-        height: auto; /* Altura automática */
-        flex-direction: column; /* Empilha os cards um em cima do outro */
-        gap: 30px; /* Adiciona um espaço entre os cards */
+        height: auto;
+        flex-direction: column;
+        gap: 30px;
     }
 
     .feature-column {
-        position: static; /* Remove o posicionamento absoluto */
-        width: 80%; /* Define uma largura para os cards */
-        transform: none !important; /* Reseta qualquer transformação (importante!) */
+        position: static;
+        width: 80%;
+        transform: none !important;
     }
 
     /* --- SEÇÃO DO GIF --- */
     .gif-section {
-        height: 30vh; /* Diminui a altura da seção do GIF */
+        height: 30vh;
     }
-
 }
