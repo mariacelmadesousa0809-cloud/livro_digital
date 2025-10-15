@@ -324,3 +324,60 @@ input, textarea, [contenteditable="true"] {
   -ms-user-select: text;
   user-select: text;
 }
+
+/* ==========================================================================
+   6. ESTILOS RESPONSIVOS PARA CELULAR
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+    /* --- AJUSTES GERAIS --- */
+    .container {
+        width: 90%; /* Aumenta a largura do conteúdo para aproveitar melhor a tela */
+    }
+
+    /* --- SEÇÃO DO TOPO (HERO) --- */
+    .hero {
+        height: auto; /* Altura automática para o conteúdo caber */
+        padding: 60px 0; /* Adiciona um respiro em cima e embaixo */
+    }
+
+    .hero-image {
+        position: static; /* Remove o posicionamento absoluto */
+        transform: translate(0, 0); /* Reseta a transformação */
+        width: 70%; /* Diminui um pouco a imagem da capa */
+        margin: 0 auto 30px; /* Centraliza a imagem e adiciona espaço embaixo */
+    }
+
+    .hero-text {
+        position: static; /* Remove o posicionamento absoluto */
+        bottom: auto;
+    }
+
+    .hero-text h1 {
+        font-size: 2.2em; /* Diminui o tamanho do título principal */
+    }
+
+    .hero-text p {
+        font-size: 1em; /* Diminui o texto do parágrafo */
+    }
+
+    /* --- SEÇÃO DE CARDS (FEATURES) --- */
+    .feature-grid {
+        height: auto; /* Altura automática */
+        flex-direction: column; /* Empilha os cards um em cima do outro */
+        gap: 30px; /* Adiciona um espaço entre os cards */
+    }
+
+    .feature-column {
+        position: static; /* Remove o posicionamento absoluto */
+        width: 80%; /* Define uma largura para os cards */
+        transform: none !important; /* Reseta qualquer transformação (importante!) */
+    }
+
+    /* --- SEÇÃO DO GIF --- */
+    .gif-section {
+        height: 30vh; /* Diminui a altura da seção do GIF */
+    }
+
+}
