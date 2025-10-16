@@ -34,7 +34,7 @@
     }
 
     // Caracteres que simulam as "plantas"
-    let katakana = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+    let katakana = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン'; 
     let latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let nums = '0123456789';
     let matrixChars = (katakana + latin + nums).split('');
@@ -80,7 +80,7 @@
 
       requestAnimationFrame(drawMatrix);
     }
-
+    
     // inicialização segura
     resizeCanvas();
     requestAnimationFrame(drawMatrix);

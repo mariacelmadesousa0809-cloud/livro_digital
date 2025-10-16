@@ -136,27 +136,28 @@ footer { background-color: #111827; color: #9CA3AF; text-align: center; padding:
     .feature-grid { height: auto; flex-direction: column; gap: 30px; }
     .feature-column { position: static; width: 80%; transform: none !important; }
 }
-
-/* NOVA SEÇÃO DO GIF (COM FUNDO TRANSPARENTE) */
+/* ================================================== */
+/*         SEÇÃO COM GIF DE FUNDO (SEU ESTILO)        */
+/* ================================================== */
 .gif-section {
-    padding: 0;
-    height: 50vh;
+    padding: 0 !important; /* Remove qualquer espaçamento interno */
+    height: 60vh; /* Altura da seção (60% da altura da tela). Ajuste se quiser. */
     overflow: hidden;
     position: relative;
-    background: none; /* <<< A SOLUÇÃO: Remove o fundo preto da seção */
-    border-bottom: 1px solid #374151;
+    background: none !important; /* Garante o fundo transparente */
+    border-bottom: 1px solid #374151 !important; /* Mantém a linha separadora */
 }
+
 .fullscreen-gif {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    opacity: 0.7; /* Aumentei um pouco a opacidade para o GIF ficar mais visível */
-    position: relative;
-    z-index: 1;
+    object-fit: cover; /* Faz o GIF cobrir toda a seção sem distorcer */
+    opacity: 0.6; /* Opacidade para mesclar com o fundo. Ajuste se quiser. */
+    position: absolute; /* Posiciona o GIF dentro da seção */
+    top: 0;
+    left: 0;
+    z-index: 1; /* Garante que ele fique na seção, mas atrás de outros conteúdos se houver */
 }
-
-/* evita seleção de texto */
-html, body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
 
 
 /* ==========================================================================
@@ -325,70 +326,157 @@ input, textarea, [contenteditable="true"] {
   user-select: text;
 }
 
-/* ==========================================================================
-   6. ESTILOS RESPONSIVOS PARA CELULAR (VERSÃO 2 - MAIS FORTE)
-   ========================================================================== */
-
+/* ================================================================== */
+/* CSS RESPONSIVO FINAL (AJUSTES PARA CELULAR) */
+/* ================================================================== */
 @media (max-width: 768px) {
 
     /* --- AJUSTES GERAIS --- */
     .container {
         width: 90%;
     }
-
     section {
-        padding: 40px 0; /* Diminui o espaçamento das seções */
+        padding: 40px 0;
     }
 
-    /* --- SEÇÃO DO TOPO (HERO) - A CORREÇÃO PRINCIPAL ESTÁ AQUI --- */
+    /* Esconde a arte ASCII complexa no celular */
+    .desktop-only {
+        display: none !important;
+    }
+
+    /* --- CORREÇÃO PRINCIPAL: SEÇÃO DO TOPO (HERO) --- */
     .hero {
-        height: auto !important; /* Altura automática, !important para forçar */
-        display: block !important; /* Muda para block para empilhar */
-        padding: 60px 0;
+        height: auto !important; /* Altura se ajusta ao conteúdo */
+        display: block !important; /* Garante que não seja flex ou grid */
+        padding: 60px 0 40px 0; /* Espaçamento interno (topo/fundo) */
     }
 
+    .hero-content {
+        flex-direction: column; /* Empilha os itens */
+    }
+
+    /* Reseta a posição da imagem */
+    .hero-image-container {
+        width: 80%;
+        max-width: 280px;
+        margin: 0 auto 30px auto; /* Centraliza e dá espaço abaixo */
+    }
     .hero-image {
-        position: static !important; /* Remove o posicionamento absoluto */
-        transform: translate(0, 0) scale(1.0) !important; /* Reseta a posição e o tamanho */
-        width: 70%;
-        max-width: 280px; /* Limita o tamanho máximo da imagem */
-        margin: 0 auto 30px; /* Centraliza a imagem e dá espaço embaixo */
+        position: static !important; /* Tira do posicionamento absoluto */
+        transform: none !important; /* Remove qualquer translação ou escala */
+        width: 100%;
     }
-    
     .hero-image:hover {
-        transform: none !important; /* Desativa o efeito de hover no celular */
+        transform: none !important; /* Desativa o efeito de hover */
     }
 
+    /* Reseta a posição do texto */
     .hero-text {
-        position: static !important; /* Remove o posicionamento absoluto */
-        bottom: auto;
-        transform: none !important;
-        text-align: center; /* Garante que o texto fique centralizado */
+        position: static !important; /* Tira do posicionamento absoluto */
+        text-align: center;
+        width: 100%;
     }
-
     .hero-text h1 {
-        font-size: 2.2em; /* Diminui o título */
+        font-size: 2.2em;
+        min-height: auto;
     }
-
     .hero-text p {
         font-size: 1em;
+        min-height: auto;
     }
 
-    /* --- SEÇÃO DE CARDS (FEATURES) --- */
+    /* --- AJUSTES NAS OUTRAS SEÇÕES --- */
     .feature-grid {
         height: auto;
         flex-direction: column;
         gap: 30px;
     }
-
     .feature-column {
         position: static;
         width: 80%;
         transform: none !important;
     }
-
-    /* --- SEÇÃO DO GIF --- */
-    .gif-section {
-        height: 30vh;
+    .result-image {
+        max-width: 90%;
+    }
+    .testimonial {
+        max-width: 90%;
     }
 }
+        /* ================================================================== */
+        /* CSS RESPONSIVO */
+        /* ================================================================== */
+        @media (max-width: 768px) {
+            .desktop-only { display: none !important; }
+            .container { width: 90% !important; }
+            .hero-content { flex-direction: column !important; gap: 30px !important; }
+            .hero-text { text-align: center !important; order: 2 !important; }
+            .hero-image-container { order: 1 !important; width: 80% !important; max-width: 280px !important; margin: 0 auto !important; }
+            .hero h1 { font-size: 2em !important; min-height: auto !important; }
+            .hero p { font-size: 1em !important; min-height: auto !important; }
+            .feature-grid { height: auto !important; flex-direction: column !important; gap: 30px !important; }
+            .feature-column { position: static !important; width: 80% !important; transform: none !important; }
+            .result-image { max-width: 90% !important; }
+            .testimonial { max-width: 90% !important; }
+
+            /* ================================================== */
+            /*      A CORREÇÃO PARA O GIF NO CELULAR É AQUI     */
+            /* ================================================== */
+            .gif-section {
+                height: 30vh !important; /* Reduz a altura da seção do GIF para 30% da tela */
+            }
+        }        /* ================================================================== */
+        /* CSS RESPONSIVO (VERSÃO FINAL E COMPLETA) */
+        /* ================================================================== */
+        @media (max-width: 768px) {
+            .desktop-only { 
+                display: none !important; 
+            }
+            .container { 
+                width: 90% !important; 
+            }
+            .hero-content { 
+                flex-direction: column !important; 
+                gap: 30px !important; 
+            }
+            .hero-text { 
+                text-align: center !important; 
+                order: 2 !important; 
+            }
+            .hero-image-container { 
+                order: 1 !important; 
+                width: 80% !important; 
+                max-width: 280px !important; 
+                margin: 0 auto !important; 
+            }
+            .hero h1 { 
+                font-size: 2em !important; 
+                min-height: auto !important; 
+            }
+            .hero p { 
+                font-size: 1em !important; 
+                min-height: auto !important; 
+            }
+            .feature-grid { 
+                height: auto !important; 
+                flex-direction: column !important; 
+                gap: 30px !important; 
+            }
+            .feature-column { 
+                position: static !important; 
+                width: 80% !important; 
+                transform: none !important; 
+            }
+            .result-image { 
+                max-width: 90% !important; 
+            }
+            .testimonial { 
+                max-width: 90% !important; 
+            }
+
+            /* --- AJUSTE FINAL PARA O GIF NO CELULAR --- */
+            .gif-section {
+                height: 35vh !important; /* Altura de 35% da tela. */
+            }
+        }
+
